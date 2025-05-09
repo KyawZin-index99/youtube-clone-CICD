@@ -1,7 +1,7 @@
 resource "aws_instance" "web" {
   ami                    = "ami-06c4be2792f419b7b"      #change ami id for different region
   instance_type          = "t2.medium"
-  key_name               = "DevOps"              #change key name as per your setup
+  key_name               ="kyawzin1"              #change key name as per your setup
   vpc_security_group_ids = [aws_security_group.Monitoring-Server-SG.id]
   user_data              = templatefile("./install.sh", {})
 
