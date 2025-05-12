@@ -108,16 +108,16 @@ pipeline {
                         // Build the Docker image
                         sh "docker build -t youtube-clone ."
                         // Tag the image with the dynamically fetched version
-                        sh "docker tag youtube-clone hlaingminpaing/youtube-clone:${env.IMAGE_TAG}"
+                        sh "docker tag youtube-clone kyawzin99/youtube-clone:${env.IMAGE_TAG}"
                         // Push the tagged image
-                        sh "docker push hlaingminpaing/youtube-clone:${env.IMAGE_TAG}"
+                        sh "docker push kyawzin99/youtube-clone:${env.IMAGE_TAG}"
                     }
                 }
             }
             post {
                 always {
                     // Clean up Docker images to save disk space
-                    sh "docker rmi youtube-clone hlaingminpaing/youtube-clone:${env.IMAGE_TAG} || true"
+                    sh "docker rmi youtube-clone kyawzin99/youtube-clone:${env.IMAGE_TAG} || true"
                 }
             }
         }
@@ -151,7 +151,7 @@ pipeline {
                                     // Optional: print version to verify AWS credentials are working
                                     sh 'kubectl version'
                                     // Update image tag in deployment file (optional)
-                                    sh "sed -i 's|image: hlaingminpaing/youtube-clone:.*|image: hlaingminpaing/youtube-clone:${env.IMAGE_TAG}|' deployment.yml"
+                                    sh "sed -i 's|image: kyawzin99/youtube-clone:.*|image: kyawzin99/youtube-clone:${env.IMAGE_TAG}|' deployment.yml"
                                     // Deploy
                                     sh 'kubectl apply -f deployment.yml'
                                     sh 'kubectl apply -f service.yml'
@@ -173,7 +173,7 @@ pipeline {
             body: "Project: ${env.JOB_NAME}<br/>" +
                 "Build Number: ${env.BUILD_NUMBER}<br/>" +
                 "URL: ${env.BUILD_URL}<br/>",
-            to: 'hlaingminpaing.ygn@gmail.com',                              
+            to: 'kyawzinthant.nmk@gmail.com',                              
             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
         }
     }
