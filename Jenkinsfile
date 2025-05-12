@@ -15,7 +15,7 @@ pipeline {
         TRIVY_HOME = '/usr/bin'
         REPO_URL = 'https://github.com/KyawZin-index99/youtube-clone-CICD' 
         REPO_BRANCH = 'main'
-        DOCKER_IMAGE_NAME = 'kyawzin/youtube-clone'
+        DOCKER_IMAGE_NAME = 'kyawzin99/youtube-clone'
         SONAR_PROJECT_NAME = 'youtube-cicd'
         SONAR_PROJECT_KEY = 'youtube-cicd'
         DOCKER_CREDENTIALS_ID = 'dockerhub'
