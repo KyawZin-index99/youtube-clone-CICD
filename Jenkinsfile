@@ -145,8 +145,13 @@ pipeline {
                         dir('Kubernetes') {
                             sh '''
                                 if ! command -v aws &> /dev/null; then
-                                    echo "Installing AWS CLI..."
-                                    sudo apt-get update && sudo apt-get install -y awscli
+                                    echo Installing AWS CLI...
+                                    sudo apt-get update
+                                    sudo apt-get install -y unzip curl
+                                    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+                                    unzip awscliv2.zip
+                                    sudo ./aws/install
+                                    aws --version
                                 fi
                             '''
                             withKubeConfig(
