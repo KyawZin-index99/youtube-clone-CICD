@@ -104,7 +104,7 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
+                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker') {
                         // Build the Docker image
                         sh "docker build -t youtube-clone ."
                         // Tag the image with the dynamically fetched version
