@@ -136,33 +136,35 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-                steps {
-                    withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding', 
-                        credentialsId: 'aws-secret' // AWS credentials from Jenkins
-                    ]]) {
-                        script {
-                            dir('Kubernetes') {
-                                withKubeConfig(
-                                    credentialsId: "${KUBERNETES_CREDENTIALS_ID}",
-                                    serverUrl: '', // Optional if kubeconfig is valid
-                                    namespace: "${K8S_NAMESPACE}"
-                                ) {
-                                    // Optional: print version to verify AWS credentials are working
-                                    sh 'kubectl version'
-                                    // Update image tag in deployment file (optional)
-                                    sh "sed -i 's|image: kyawzin99/youtube-clone:.*|image: kyawzin99/youtube-clone:${env.IMAGE_TAG}|' deployment.yml"
-                                    // Deploy
-                                    sh 'kubectl apply -f deployment.yml'
-                                    sh 'kubectl apply -f service.yml'
-                                }
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-secret'
+                ]]) {
+                    script {
+                        dir('Kubernetes') {
+                            sh '''
+                                if ! command -v aws &> /dev/null; then
+                                    echo "Installing AWS CLI..."
+                                    apt-get update && apt-get install -y awscli
+                                fi
+                            '''
+                            withKubeConfig(
+                                credentialsId: "${KUBERNETES_CREDENTIALS_ID}",
+                                serverUrl: '',
+                                namespace: "${K8S_NAMESPACE}"
+                            ) {
+                                sh 'kubectl version'
+                                sh "sed -i 's|image: kyawzin99/youtube-clone:.*|image: kyawzin99/youtube-clone:${env.IMAGE_TAG}|' deployment.yml"
+                                sh 'kubectl apply -f deployment.yml'
+                                sh 'kubectl apply -f service.yml'
                             }
                         }
                     }
                 }
             }
-        }
-    // }   
+        }  
+    }
 
 
 
@@ -177,5 +179,4 @@ pipeline {
             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
         }
     }
-    
 }
