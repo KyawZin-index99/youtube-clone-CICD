@@ -13,7 +13,7 @@ pipeline {
     environment {
         SCANNER_HOME = tool 'sonarqube-scanner'
         TRIVY_HOME = '/usr/bin'
-        REPO_URL = 'https://github.com/KyawZin-index99/youtube-clone-CICD' 
+        REPO_URL = 'https://github.com/KyawZin-index99/youtube-clone-CICD.git' 
         REPO_BRANCH = 'main'
         DOCKER_IMAGE_NAME = 'kyawzin99/youtube-clone'
         SONAR_PROJECT_NAME = 'youtube-cicd'
